@@ -18,7 +18,7 @@ export const Container = styled.main`
   }
 
   font-size: 0.875rem;
-  line-height: 1.313rem;
+  line-height: 1.3125rem;
 
   > div {
     display: flex;
