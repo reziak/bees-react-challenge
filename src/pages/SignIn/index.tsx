@@ -1,5 +1,6 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../contexts/AuthContext';
 
 import { Container, Form } from './styles';
 
@@ -8,10 +9,11 @@ export const SignIn = () => {
   const [isAgeChecked, setIsAgeChecked] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
   const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
 
   const handleSignIn = (event: FormEvent) => {
     event.preventDefault();
-    console.log(fullName);
+    setUser(fullName);
     navigate('/breweries');
   }
 

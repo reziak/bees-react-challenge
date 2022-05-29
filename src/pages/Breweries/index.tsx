@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { api } from '../../services/api';
 import { BreweryCard } from "../../components/BreweryCard";
@@ -6,6 +7,7 @@ import { BreweryCard } from "../../components/BreweryCard";
 import { BreweriesList, Container, Header } from "./styles"
 
 import arrowCircleLeftSVG from '../../assets/arrow-circle-left.svg';
+import { AuthContext } from "../../contexts/AuthContext";
 
 export type BreweryTags = {
   breweryType: string;
@@ -25,7 +27,21 @@ export type Brewery = {
 }
 
 export const Breweries = () => {
+  const navigate = useNavigate();
   const [breweries, setBreweries] = useState<Brewery[]>([]);
+  const { user } = useContext(AuthContext);
+
+  const handleReturnToSignIn = () => {
+    navigate('/');
+  }
+
+  const handleDeleteCard = (id: string) => {
+    const currentBreweries = [...breweries];
+    const filteredBrewery = currentBreweries.filter(brewery => {
+      return brewery.id !== id;
+    });
+    setBreweries(filteredBrewery);
+  }
 
   const fetchData = async () => {
     const locations = [];
@@ -59,16 +75,20 @@ export const Breweries = () => {
     <Container>
       <Header>
         <div>
-          <button type="button">
+          <button type="button" onClick={handleReturnToSignIn}>
             <img src={arrowCircleLeftSVG} alt="Go back" />
             <span>Go back</span>
           </button>
-          <span>Full Name</span>
+          <span>{user}</span>
         </div>
       </Header>
       <BreweriesList>
         {breweries.map(location => (
-          <BreweryCard key={location.id} breweryData={location} />
+          <BreweryCard
+            key={location.id}
+            breweryData={location} 
+            onDeleteCard={handleDeleteCard}
+          />
         ))}
       </BreweriesList>
     </Container>

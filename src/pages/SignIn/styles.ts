@@ -64,10 +64,15 @@ export const Form = styled.form`
     border-radius: 4px;
     height: 40px;
     color: #fff;
+    transition: background 0.2s;
     
     &:disabled {
       background: #52525B;
       cursor: not-allowed;
+    }
+
+    &:hover:not(:disabled) {
+      background: #4a4cbf;
     }
   }
 `;

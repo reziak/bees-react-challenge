@@ -39,11 +39,10 @@ export const Header = styled.header`
 
 export const BreweriesList = styled.main`
   width: 100%;
-  max-width: 1440px;
+  max-width: 1242px;
   margin: 98px auto 0;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: 48px;
+  gap: 3rem;
 `;
