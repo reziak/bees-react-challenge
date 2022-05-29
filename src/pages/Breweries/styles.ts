@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  min-height: 100%;
+  height: fit-content;
   background: #FFFEF0;
-  height: 100vh;
 `;
 
 export const Header = styled.header`
@@ -39,10 +40,18 @@ export const Header = styled.header`
 
 export const BreweriesList = styled.main`
   width: 100%;
-  max-width: 1242px;
-  margin: 98px auto 0;
+  padding: 98px 40px;
+  margin: 0 auto;
   display: flex;
-  align-items: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 3rem;
+  
+  @media (min-width: 892px) {
+    max-width: 892px;
+  }
+  
+  @media (min-width: 1322px) {
+    max-width: 1322px;
+  }
 `;

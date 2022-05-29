@@ -1,29 +1,44 @@
 import { FormEvent, useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import { Container, Form } from './styles';
 
 export const SignIn = () => {
+  const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
+  const [cookies, setCookies] = useCookies(['user']);
   const [fullName, setFullName] = useState('');
   const [isAgeChecked, setIsAgeChecked] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-  const navigate = useNavigate();
-  const { setUser } = useContext(AuthContext);
 
   const handleSignIn = (event: FormEvent) => {
     event.preventDefault();
     setUser(fullName);
+    setCookies('user', fullName, { path: '/'});
     navigate('/breweries');
   }
 
   const onFullNameChange = (value: string) => {
-    setFullName(value.trim());
+    const regex = /^[a-z\s]+$/i;
+    const trimValue = value.trim()
+    const testValue = trimValue.match(regex);
+
+    if (testValue && trimValue.length >= 8) {
+      setFullName(trimValue);
+    } else {
+      setFullName('');
+    }
   }
 
   useEffect(() => {
     setIsFormValid(fullName.length >= 8 && isAgeChecked);
-  }, [fullName, isAgeChecked])
+  }, [fullName, isAgeChecked]);
+
+  if (cookies.user) {
+    return <Navigate to="/breweries" />;
+  }
 
   return (
     <Container>

@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import { api } from '../../services/api';
+import { AuthContext } from "../../contexts/AuthContext";
 import { BreweryCard } from "../../components/BreweryCard";
 
 import { BreweriesList, Container, Header } from "./styles"
 
 import arrowCircleLeftSVG from '../../assets/arrow-circle-left.svg';
-import { AuthContext } from "../../contexts/AuthContext";
 
 export type BreweryTags = {
   breweryType: string;
@@ -28,10 +29,13 @@ export type Brewery = {
 
 export const Breweries = () => {
   const navigate = useNavigate();
+  const { user, setUser } = useContext(AuthContext);
   const [breweries, setBreweries] = useState<Brewery[]>([]);
-  const { user } = useContext(AuthContext);
+  const [cookies, setCookies] = useCookies(['user']);
 
   const handleReturnToSignIn = () => {
+    setUser('');
+    setCookies('user', '');
     navigate('/');
   }
 
@@ -69,7 +73,19 @@ export const Breweries = () => {
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      if (cookies.user) {
+        setUser(cookies.user);
+      }
+    }
+  }, [user, cookies.user, setUser]);
+
+  if (!user) {
+    return <Navigate to="/" />
+  }
 
   return (
     <Container>

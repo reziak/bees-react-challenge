@@ -1,32 +1,38 @@
 # Bees frontend react challenge
+## Project was created using
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Create react app (typescript template)
+- Axios
+- Styled components
+- React cookie
 
-## Available Scripts
+# Folder structure
 
-In the project directory, you can run:
+```
+.
+|-- public
+|-- src                   # project's source code
+|   |-- assets            # images and icons used in the project
+|   |-- components        # react components
+|   |   |-- BreweryCard   # Card component and it's styles
+|   |   |-- CardTag       # card Tags component and it's styles
+|   |-- contexts          # general app contexts (like user context)
+|   |-- pages             # react pages
+|   |   |-- Breweries     # brewery list page and it's styles (second screen)
+|   |   |-- SignIn        # starting page and it's styles (first screen)
+|   |-- services          # general app services (like axios)
+```
 
-### `npm start`
+# Running the project
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. Download or clone this project
+1. Install the necessary packages with **npm install** or **yarn install**
+1. Then run it with **npm run start** or **yarn start**
+1. The app should be available at [http://localhost:3000](http://localhost:3000)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+# Features
+- Responsive
+- Simple auth (page redirecting)
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-
+# Screens breakdown
+## First screen
