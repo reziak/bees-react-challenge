@@ -8,6 +8,9 @@ export const Container = styled.div`
   background: #fff;
   border: 1px solid #000;
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   strong {
     font-size: 1.25rem;
@@ -23,7 +26,7 @@ export const Container = styled.div`
     margin-bottom: 20px;
   }
 
-  p + div {
+  .tags {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;

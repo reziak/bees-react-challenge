@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
@@ -9,28 +9,12 @@ import { BreweryCard } from "../../components/BreweryCard";
 import { BreweriesList, Container, Header } from "./styles"
 
 import arrowCircleLeftSVG from '../../assets/arrow-circle-left.svg';
-
-export type BreweryTags = {
-  breweryType: string;
-  postalCode: string;
-  phone: string;
-  userAdded: string | null;
-}
-
-export type Brewery = {
-  id: string;
-  name: string;
-  street: string | null;
-  city: string;
-  state: string;
-  country: string;
-  tags: BreweryTags;
-}
+import { BreweryContext } from "../../contexts/BreweryContext";
 
 export const Breweries = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
-  const [breweries, setBreweries] = useState<Brewery[]>([]);
+  const { breweries, setBreweries } = useContext(BreweryContext);
   const [cookies, setCookies] = useCookies(['user']);
 
   const handleReturnToSignIn = () => {
@@ -47,33 +31,33 @@ export const Breweries = () => {
     setBreweries(filteredBrewery);
   }
 
-  const fetchData = async () => {
-    const locations = [];
-    const response = await api.get('?per_page=6');
-
-    for (const location of response.data) {
-      locations.push({
-        id: location.id,
-        name: location.name,
-        street: location.street || null,
-        city: location.city,
-        state: location.state,
-        country: location.country,
-        tags: {
-          breweryType: location.brewery_type,
-          postalCode: location.postal_code,
-          phone: location.phone,
-          userAdded: null,
-        }
-      });
+  useEffect(() => {
+    const fetchData = async () => {
+      const locations = [];
+      const response = await api.get('?per_page=6');
+  
+      for (const location of response.data) {
+        locations.push({
+          id: location.id,
+          name: location.name,
+          street: location.street || null,
+          city: location.city,
+          state: location.state,
+          country: location.country,
+          tags: {
+            breweryType: location.brewery_type,
+            postalCode: location.postal_code,
+            phone: location.phone,
+            userAdded: null,
+          }
+        });
+      }
+  
+      setBreweries(locations);
     }
 
-    setBreweries(locations);
-  }
-
-  useEffect(() => {
     fetchData();
-  }, []);
+  }, [setBreweries]);
 
   useEffect(() => {
     if (!user) {

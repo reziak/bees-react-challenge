@@ -43,10 +43,13 @@ export const BreweriesList = styled.main`
   padding: 98px 40px;
   margin: 0 auto;
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   gap: 3rem;
   
+  @media (max-width: 891px) {
+    justify-content: center;
+  }
+
   @media (min-width: 892px) {
     max-width: 892px;
   }
