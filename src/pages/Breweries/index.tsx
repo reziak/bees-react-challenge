@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
 
 import { api } from '../../services/api';
+import { BreweryCard } from "../../components/BreweryCard";
+
 import { BreweriesList, Container, Header } from "./styles"
 
-import ArrowCircleLeftSVG from '../../assets/arrow-circle-left.svg';
+import arrowCircleLeftSVG from '../../assets/arrow-circle-left.svg';
 
-type BreweryTags = {
+export type BreweryTags = {
   breweryType: string;
   postalCode: string;
   phone: string;
-  userAdded: string[];
+  userAdded: string | null;
 }
 
-type Brewery = {
+export type Brewery = {
   id: string;
   name: string;
   street: string | null;
@@ -24,7 +26,6 @@ type Brewery = {
 
 export const Breweries = () => {
   const [breweries, setBreweries] = useState<Brewery[]>([]);
-
 
   const fetchData = async () => {
     const locations = [];
@@ -42,7 +43,7 @@ export const Breweries = () => {
           breweryType: location.brewery_type,
           postalCode: location.postal_code,
           phone: location.phone,
-          userAdded: [],
+          userAdded: null,
         }
       });
     }
@@ -58,19 +59,17 @@ export const Breweries = () => {
     <Container>
       <Header>
         <div>
-          <img src={ArrowCircleLeftSVG} alt="Go back" />
-          <span>Go back</span>
+          <button type="button">
+            <img src={arrowCircleLeftSVG} alt="Go back" />
+            <span>Go back</span>
+          </button>
+          <span>Full Name</span>
         </div>
-        <span>Full Name</span>
       </Header>
       <BreweriesList>
-        <ul>
-          {breweries.length > 0 && breweries.map(brewery => (
-            <li key={brewery.id}>
-              <p>{brewery.name}</p>
-            </li>
-          ))}
-        </ul>
+        {breweries.map(location => (
+          <BreweryCard key={location.id} breweryData={location} />
+        ))}
       </BreweriesList>
     </Container>
   )
