@@ -1,21 +1,23 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 import { api } from '../../services/api';
 import { AuthContext } from "../../contexts/AuthContext";
+import { BreweryContext } from "../../contexts/BreweryContext";
 import { BreweryCard } from "../../components/BreweryCard";
 
-import { BreweriesList, Container, Header } from "./styles"
+import { BreweriesList, Container, Header, Loading } from "./styles"
 
 import arrowCircleLeftSVG from '../../assets/arrow-circle-left.svg';
-import { BreweryContext } from "../../contexts/BreweryContext";
+import beesSVG from '../../assets/bees.svg';
 
 export const Breweries = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
   const { breweries, setBreweries } = useContext(BreweryContext);
   const [cookies, setCookies] = useCookies(['user']);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleReturnToSignIn = () => {
     setUser('');
@@ -57,6 +59,7 @@ export const Breweries = () => {
     }
 
     fetchData();
+    setIsLoading(false);
   }, [setBreweries]);
 
   useEffect(() => {
@@ -82,15 +85,25 @@ export const Breweries = () => {
           <span>{user}</span>
         </div>
       </Header>
-      <BreweriesList>
-        {breweries.map(location => (
-          <BreweryCard
-            key={location.id}
-            breweryData={location} 
-            onDeleteCard={handleDeleteCard}
-          />
-        ))}
-      </BreweriesList>
+      {isLoading ? (
+        <Loading>
+          <div>
+            <strong>Loading</strong>
+            <img src={beesSVG} alt="Happy looking bee" />
+          </div>
+        </Loading>
+      ) : (
+        <BreweriesList>
+          {breweries.map(location => (
+            <BreweryCard
+              key={location.id}
+              breweryData={location} 
+              onDeleteCard={handleDeleteCard}
+            />
+          ))}
+        </BreweriesList>
+
+      )}
     </Container>
   )
 }

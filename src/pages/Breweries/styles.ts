@@ -58,3 +58,40 @@ export const BreweriesList = styled.main`
     max-width: 1322px;
   }
 `;
+
+export const Loading = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 40px;
+  height: calc(100vh - 80px);
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    position: relative;
+
+    strong {
+      font-size: 3rem;
+      color: #31313A;
+    }
+
+    img {
+      width: 68px;
+      height: 68px;
+      position: relative;
+      animation-name: bee;
+      animation-duration: 2s;
+      animation-iteration-count: infinite;
+      animation-timing-function: ease-in-out;
+    }
+
+    @keyframes bee {
+      0% { top: 0; }
+      50% { top: -20px; }
+      100% { top: 0; }
+    }
+  }
+`;

@@ -2,6 +2,7 @@
 ## Project was created using
 
 - Create react app (typescript template)
+- React router dom
 - Axios
 - Styled components
 - React cookie
